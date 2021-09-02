@@ -14,5 +14,11 @@ namespace Medals_API.Models
             this.SaveChanges();
             return country;
         }
+
+        public void DeleteCountry(Country country)
+        {
+            this.Remove(country);
+            this.SaveChanges();
+        }
     }
 }

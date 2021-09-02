@@ -29,5 +29,14 @@ namespace Medals_API.Controllers
         [HttpPost]
         // add country
         public Country Post([FromBody] Country country) => _dataContext.AddCountry(country);
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id){
+            Country country = _dataContext.Countries.Find(id);
+            if (country == null){
+                return NotFound();
+            }
+            _dataContext.DeleteCountry(country);
+            return NoContent();
+        } 
     }
 }
