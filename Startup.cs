@@ -38,6 +38,7 @@ namespace Medals_API
                     Description = "Olympic Medals API",
                  });
                 c.TagActionsBy(api => new[] { api.HttpMethod });
+                c.EnableAnnotations();
             });
         }
 
