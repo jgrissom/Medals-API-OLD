@@ -21,5 +21,10 @@ namespace Medals_API.Controllers
         {
             return _dataContext.Countries;
         }
+        [HttpGet("{id}")]
+        public Country Get(int id)
+        {
+            return _dataContext.Countries.Find(id);
+        }
     }
 }
