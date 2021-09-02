@@ -7,5 +7,12 @@ namespace Medals_API.Models
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
         public DbSet<Country> Countries { get; set; }
+
+        public Country AddCountry(Country country)
+        {
+            this.Add(country);
+            this.SaveChanges();
+            return country;
+        }
     }
 }

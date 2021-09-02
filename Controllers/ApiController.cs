@@ -26,5 +26,8 @@ namespace Medals_API.Controllers
         {
             return _dataContext.Countries.Find(id);
         }
+        [HttpPost]
+        // add country
+        public Country Post([FromBody] Country country) => _dataContext.AddCountry(country);
     }
 }
