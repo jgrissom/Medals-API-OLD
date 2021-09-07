@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Medals_API.Models;
+using Medals_API.Hubs;
 
 namespace Medals_API
 {
@@ -77,6 +78,7 @@ namespace Medals_API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<MedalsHub>("/medalsHub");
             });
         }
     }
