@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Medals_API.Models;
 using Swashbuckle.AspNetCore.Annotations;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace Medals_API.Controllers
 {
@@ -39,5 +40,15 @@ namespace Medals_API.Controllers
             _dataContext.DeleteCountry(country);
             return NoContent();
         } 
+        [HttpPatch("{id}"), SwaggerOperation(summary: "update member from collection", null), ProducesResponseType(typeof(Country), 204), SwaggerResponse(204, "No Content")]
+        // update country (specific fields)
+        public ActionResult Patch(int id, [FromBody]JsonPatchDocument<Country> patch){
+            Country country = _dataContext.Countries.Find(id);
+            if (country == null){
+                return NotFound();
+            }
+            _dataContext.PatchCountry(id, patch);
+            return NoContent();
+        }
     }
 }
