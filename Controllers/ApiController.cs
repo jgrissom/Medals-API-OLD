@@ -5,6 +5,8 @@ using Medals_API.Models;
 using Swashbuckle.AspNetCore.Annotations;
 using Microsoft.AspNetCore.JsonPatch;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.SignalR;
+using Medals_API.Hubs;
 
 namespace Medals_API.Controllers
 {
@@ -14,10 +16,12 @@ namespace Medals_API.Controllers
         private readonly ILogger<ApiController> _logger;
         private DataContext _dataContext;
 
-        public ApiController(ILogger<ApiController> logger, DataContext db)
+        private readonly IHubContext<MedalsHub> _hubContext;
+        public ApiController(ILogger<ApiController> logger, DataContext db, IHubContext<MedalsHub> hubContext)
         {
             _dataContext = db;
             _logger = logger;
+            _hubContext = hubContext;
         }
 
         // http get entire collection
@@ -39,6 +43,7 @@ namespace Medals_API.Controllers
         public async Task<ActionResult<Country>> Post([FromBody] Country country) {
             _dataContext.Add(country);
             await _dataContext.SaveChangesAsync();
+            await _hubContext.Clients.All.SendAsync("ReceiveAddMessage", country);
             this.HttpContext.Response.StatusCode = 201;
             return country;
         } 
@@ -52,6 +57,7 @@ namespace Medals_API.Controllers
             }
             _dataContext.Remove(country);
             await _dataContext.SaveChangesAsync();
+            await _hubContext.Clients.All.SendAsync("ReceiveDeleteMessage", id);
             return NoContent();
         } 
 
@@ -65,6 +71,7 @@ namespace Medals_API.Controllers
             }
             patch.ApplyTo(country);
             await  _dataContext.SaveChangesAsync();
+            await _hubContext.Clients.All.SendAsync("ReceivePatchMessage", country);
             return NoContent();
         }
     }
