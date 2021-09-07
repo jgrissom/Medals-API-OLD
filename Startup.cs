@@ -30,17 +30,19 @@ namespace Medals_API
         {
             services.AddCors(options =>
             {
-                options.AddPolicy(name: "Open",
+                options.AddPolicy(name: "Hubs",
                     builder =>
                     {
                         builder
-                            .AllowAnyOrigin()
                             .AllowAnyMethod()
-                            .AllowAnyHeader();
+                            .AllowAnyHeader()
+                            .WithOrigins("http://localhost:3000","https://jgrissom.github.io")
+                            .AllowCredentials();
                     });
             });
             services.AddDbContext<DataContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultSQLiteConnection")));
             services.AddControllers().AddNewtonsoftJson();
+            services.AddSignalR();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { 
@@ -68,7 +70,7 @@ namespace Medals_API
 
             app.UseRouting();
 
-            app.UseCors("Open");
+            app.UseCors("Hubs");
 
             app.UseAuthorization();
 
