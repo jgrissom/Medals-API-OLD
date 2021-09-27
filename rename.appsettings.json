@@ -2,6 +2,11 @@
   "ConnectionStrings": {
     "DefaultSQLiteConnection": "Data Source=appdb.sqlite",
     "DefaultSQLServerConnection": "Server=bitsql.wctc.edu;Database=Identity_##_XXX;User ID=YYY;Password=ZZZ"
+  },  
+  "JWT": {  
+    "ValidAudience": "*",  
+    "ValidIssuer": "*",  
+    "Secret": "veryVeryVERYSecretKey"  
   },
   "Logging": {
     "LogLevel": {
