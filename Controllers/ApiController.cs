@@ -18,5 +18,11 @@ namespace Medals.Controllers
         {
             return _dataContext.Countries;
         }
+        // http get specific member of collection
+        [HttpGet("{id}")]
+        public Country Get(int id)
+        {
+            return _dataContext.Countries.Find(id);
+        }
     }
 }
