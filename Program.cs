@@ -24,6 +24,7 @@ builder.Services.AddSwaggerGen(c =>
         Version = "v1",
         Description = "Olympic Medals API",
     });
+    c.EnableAnnotations();
     c.TagActionsBy(api => new[] { api.HttpMethod });
 });
 
