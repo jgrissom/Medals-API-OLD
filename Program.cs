@@ -1,5 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+using Medals.Models;
+
+// Connection info stored in appsettings.json
+IConfiguration configuration = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json")
+    .Build();
+
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container.
+// Register the DataContext service
+builder.Services.AddDbContext<DataContext>(options => options.UseSqlite(configuration["ConnectionStrings:DefaultSQLiteConnection"]));
 // Add services to the container.
 
 builder.Services.AddControllers();
