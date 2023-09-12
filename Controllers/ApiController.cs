@@ -31,5 +31,16 @@ namespace Medals.Controllers
             await _dataContext.SaveChangesAsync();
             return country;
         }
+        // http delete member from collection
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id){
+            Country country = await _dataContext.Countries.FindAsync(id);
+            if (country == null){
+                return NotFound();
+            }
+            _dataContext.Remove(country);
+            await _dataContext.SaveChangesAsync();
+            return NoContent();
+        }
     }
 }
