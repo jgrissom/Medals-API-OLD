@@ -24,5 +24,12 @@ namespace Medals.Controllers
         {
             return _dataContext.Countries.Find(id);
         }
+        // http post member to collection
+        [HttpPost]
+        public async Task<ActionResult<Country>> Post([FromBody] Country country) {
+            _dataContext.Add(country);
+            await _dataContext.SaveChangesAsync();
+            return country;
+        }
     }
 }
