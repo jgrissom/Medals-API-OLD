@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using Medals.Models;
 
 // Connection info stored in appsettings.json
@@ -16,7 +17,15 @@ builder.Services.AddDbContext<DataContext>(options => options.UseSqlite(configur
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { 
+        Title = "Medals API", 
+        Version = "v1",
+        Description = "Olympic Medals API",
+    });
+    c.TagActionsBy(api => new[] { api.HttpMethod });
+});
 
 var app = builder.Build();
 
