@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Medals.Models;
+using Medals.Hubs;
 
 // Connection info stored in appsettings.json
 IConfiguration configuration = new ConfigurationBuilder()
@@ -15,15 +16,18 @@ builder.Services.AddDbContext<DataContext>(options => options.UseSqlite(configur
 // Add services to the container.
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: "Open",
+    options.AddPolicy(name: "Hubs",
         builder =>
         {
             builder
-                .AllowAnyOrigin()
+                .AllowAnyHeader()
                 .AllowAnyMethod()
-                .AllowAnyHeader();
+                // Anonymous origins NOT allowed for web sockets
+                .WithOrigins("http://localhost:3000","https://jgrissom.github.io")
+                .AllowCredentials();
         });
 });
+builder.Services.AddSignalR();
 
 builder.Services.AddControllers().AddNewtonsoftJson();;
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -41,7 +45,7 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-app.UseCors("Open");
+app.UseCors("Hubs");
 
 // Configure the HTTP request pipeline.
 // if (app.Environment.IsDevelopment())
@@ -52,8 +56,15 @@ app.UseCors("Open");
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+app.UseCors("Hubs");
+
 app.UseAuthorization();
 
-app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapHub<MedalsHub>("/medalsHub");
+});
 
 app.Run();
