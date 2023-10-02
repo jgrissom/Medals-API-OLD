@@ -13,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // Register the DataContext service
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlite(configuration["ConnectionStrings:DefaultSQLiteConnection"]));
+builder.Services.AddDbContext<IdentityContext>(options => options.UseSqlServer(configuration["DefaultSQLServerConnection"]));
 // Add services to the container.
 builder.Services.AddCors(options =>
 {
