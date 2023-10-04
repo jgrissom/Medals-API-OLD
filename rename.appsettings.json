@@ -1,14 +1,19 @@
 {
-    "ConnectionStrings": {
-        "DefaultSQLiteConnection": "Data Source=appdb.sqlite",
-        "DefaultSQLServerConnection": "Server=bitsql.wctc.edu;Database=Identity_##_XXX;User ID=YYY;Password=ZZZ"
-    },
-    "Logging": {
-        "LogLevel": {
-        "Default": "Information",
-        "Microsoft": "Warning",
-        "Microsoft.Hosting.Lifetime": "Information"
-      }
-    },
-    "AllowedHosts": "*"
+  "ConnectionStrings": {
+      "DefaultSQLiteConnection": "Data Source=appdb.sqlite",
+      "DefaultSQLServerConnection": "Server=bitsql.wctc.edu;Database=Identity_##_XXX;User ID=YYY;Password=ZZZ"
+  },  
+  "JWT": {  
+    "ValidAudience": "*",  
+    "ValidIssuer": "*",  
+    "Secret": "veryVeryVERYSecretKey"  
+  },
+  "Logging": {
+      "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
+    }
+  },
+  "AllowedHosts": "*"
 }
