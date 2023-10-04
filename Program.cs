@@ -106,7 +106,10 @@ app.UseCors("Hubs");
 // if (app.Environment.IsDevelopment())
 // {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c => {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Medals API v1");
+        c.RoutePrefix = "";
+    });
 // }
 
 app.UseHttpsRedirection();
@@ -116,6 +119,8 @@ app.UseCors("Hubs");
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseFileServer();
 
 app.UseEndpoints(endpoints =>
 {
